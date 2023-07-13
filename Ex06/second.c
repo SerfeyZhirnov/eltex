@@ -34,8 +34,7 @@ void WaitProcess() {
   }
 }
 
-void CreateProcess(void (*left)(),
-                   void (*right)()) {
+void CreateProcess(void (*left)(), void (*right)()) {
   pid_t pid = fork();
   if (pid == 0) {
     PrintProcessStatus();
