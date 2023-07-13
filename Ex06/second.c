@@ -34,13 +34,13 @@ void WaitProcess() {
   }
 }
 
-void CreateProcess(void (*left)(void *, void *),
-                   void (*right)(void *, void *)) {
+void CreateProcess(void (*left)(),
+                   void (*right)()) {
   pid_t pid = fork();
   if (pid == 0) {
     PrintProcessStatus();
-    left(NULL, NULL);
-    right(NULL, NULL);
+    left();
+    right();
     WaitProcess();
     WaitProcess();
     exit(EXIT_SUCCESS);
