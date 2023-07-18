@@ -10,6 +10,7 @@ void *thread_func(void *arg) {
   for (int i = 0; i < VALUE; ++i) {
     ++sum;
   }
+  pthread_exit(arg);
 }
 
 int main() {
