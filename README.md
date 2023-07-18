@@ -5,3 +5,4 @@
 # Ex04 - Static/Dynamic library
 # Ex06 - Processes
 # Ex07 - Threads
+# Ex08 - FIFO
