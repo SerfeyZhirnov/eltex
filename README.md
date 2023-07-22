@@ -6,3 +6,4 @@
 # Ex06 - Processes
 # Ex07 - Threads
 # Ex08 - FIFO
+# Ex09 - Message Queue
