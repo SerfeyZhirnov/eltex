@@ -2,7 +2,7 @@
 
 int main() {
   char buf[256];
-  struct sockaddr_un server, client;
+  struct sockaddr_un server;
   int socket_fd = socket(AF_LOCAL, SOCK_STREAM, 0);
   if (socket_fd == -1) {
     perror("Error on socket creation: ");
@@ -12,8 +12,9 @@ int main() {
   memset(&server, 0, sizeof(struct sockaddr_un));
   server.sun_family = AF_LOCAL;
   strncpy(server.sun_path, SOCKET_NAME, sizeof(server.sun_path) - 1);
-  
-  if (bind(socket_fd, (const struct sockaddr *)&server, sizeof(struct sockaddr_un)) == -1) {
+
+  if (bind(socket_fd, (const struct sockaddr *)&server,
+           sizeof(struct sockaddr_un)) == -1) {
     perror("Bind error: ");
     exit(EXIT_FAILURE);
   }
@@ -29,7 +30,7 @@ int main() {
     exit(EXIT_FAILURE);
   }
 
-  if(recv(client_fd, buf, 256, 0) == -1) {
+  if (recv(client_fd, buf, 256, 0) == -1) {
     perror("Error on server recv message: ");
     exit(EXIT_FAILURE);
   }
