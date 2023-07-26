@@ -32,5 +32,6 @@ int main() {
 
   printf("Message from server: %s\n", buf);
 
+  close(socket_fd);
   return EXIT_SUCCESS;
 }
