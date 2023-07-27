@@ -8,3 +8,5 @@ server: server.c header.h
 client: client.c header.h
 	gcc $(C_FLAGS) client.c -o client
 	
+clean:
+	rm client server
