@@ -8,4 +8,4 @@
 # Ex08 - FIFO
 # Ex09 - Message Queue
 # Ex10 - Shared Memory
-# Ex12 - TCP/UDP
+# Ex12 - Sockets
