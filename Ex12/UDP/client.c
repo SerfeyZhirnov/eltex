@@ -12,12 +12,13 @@ int main() {
   server.sin_port = htons(SOCKET_PORT);
   server.sin_addr.s_addr = inet_addr(IP_ADDR);
 
-  int ret = connect(socket_fd, (const struct sockaddr *)&server, sizeof(struct sockaddr_in));
+  int ret = connect(socket_fd, (const struct sockaddr *)&server,
+                    sizeof(struct sockaddr_in));
   if (ret == -1) {
     perror("Error on connect server to client: ");
     exit(EXIT_FAILURE);
   }
-  
+
   char message[256];
   strcpy(message, "Hello!");
   if (send(socket_fd, message, 256, 0) == -1) {
@@ -26,7 +27,7 @@ int main() {
   }
 
   memset(message, '\0', 256);
-  if(recv(socket_fd, message, 256, 0) == -1) {
+  if (recv(socket_fd, message, 256, 0) == -1) {
     perror("Error on client recv message: ");
     exit(EXIT_FAILURE);
   }
