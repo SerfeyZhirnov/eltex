@@ -20,7 +20,7 @@ int main() {
 
   struct sockaddr_in client;
   char message[256];
-  socklen_t structsize = sizeof(IP_ADDR);
+  socklen_t structsize = sizeof(client);
   if (recvfrom(socket_fd, (void *)message, sizeof(message), 0,
                (struct sockaddr *)&client, (socklen_t *)&structsize) == -1) {
     perror("Recv error: ");
