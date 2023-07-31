@@ -19,23 +19,26 @@ int main() {
     exit(EXIT_FAILURE);
   }
 
-  char message[256];
+  char recv_msg[256], send_msg[256];
   while (1) {
-    printf("Please, enter message:");
-    fgets(message, 256, stdin);
-    if (send(socket_fd, message, strlen(message) - 1, 0) == -1) {
+    printf("Please, enter message: ");
+    fgets(send_msg, 256, stdin);
+    if (send(socket_fd, send_msg, strlen(send_msg) - 1, 0) == -1) {
       perror("Error on send: ");
       exit(EXIT_FAILURE);
     }
 
-    if (recv(socket_fd, message, sizeof(message), 0) == -1) {
+    if (recv(socket_fd, recv_msg, sizeof(recv_msg), 0) == -1) {
       perror("Error on recv: ");
       exit(EXIT_FAILURE);
     }
 
-    if (strcmp(message, "!exit") == 0) {
+    if (strcmp(recv_msg, "closed") == 0) {
       break;
     }
+
+    memset(recv_msg, '\0', 256);
+    memset(send_msg, '\0', 256);
   }
 
   close(socket_fd);

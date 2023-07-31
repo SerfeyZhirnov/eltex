@@ -27,6 +27,10 @@ int main() {
 
   int client_fds[1000];
   int i = 0;
+
+  pthread_attr_t attr;
+  pthread_attr_init(&attr);
+  pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_DETACHED);
   while (1) {
     int client_fd = accept(socket_fd, NULL, NULL);
     if (client_fd == -1) {
@@ -38,7 +42,9 @@ int main() {
 
     printf("Client %d started with fd %d\n", i, client_fd);
 
-    if (pthread_create(NULL, NULL, &ThreadFunc, (void *)&client_fds[i])) {
+    pthread_t pid;
+    if (pthread_create(&pid, (const pthread_attr_t *)&attr, &ThreadFunc,
+                       (void *)&client_fds[i])) {
       perror("Create thread: ");
       exit(EXIT_FAILURE);
     }
@@ -54,10 +60,7 @@ int main() {
 }
 
 void *ThreadFunc(void *fd) {
-  pthread_detach(pthread_self());
-
   int client_fd = *((int *)fd);
-  printf("JOINED fd: %d\n", client_fd);
   char recv_msg[256], send_msg[256] = "Ok!";
 
   while (1) {
@@ -67,15 +70,21 @@ void *ThreadFunc(void *fd) {
     }
     printf("Message from client with fd %d: %s\n", client_fd, recv_msg);
 
+    if (strcmp(recv_msg, "!exit") == 0) {
+      strcpy(send_msg, "closed");
+      send(client_fd, send_msg, sizeof(send_msg), 0);
+      break;
+    }
+
     if (send(client_fd, send_msg, sizeof(send_msg), 0) == -1) {
       perror("Recv message: ");
       pthread_exit(NULL);
     }
 
-    if (strcmp(recv_msg, "!exit") == 0) {
-      break;
-    }
+    memset(recv_msg, '\0', 256);
+    memset(send_msg, '\0', 256);
   }
 
+  printf("Connection with fd %d closed\n", client_fd);
   pthread_exit(fd);
 }
