@@ -95,7 +95,7 @@ void *ThreadFunc(void *info) {
             perror("Error recv Message: ");
             exit(EXIT_FAILURE);
           }
-          printf("Message from client with fd %d: %s\n", fd, recv_msg);
+          printf("Message from client with fd %d in thread %d: %s\n", fd, index, recv_msg);
 
           if (strcmp(recv_msg, "!exit") == 0) {
             strcpy(send_msg, "closed");
