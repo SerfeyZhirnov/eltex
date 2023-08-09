@@ -1,7 +1,7 @@
 #include "header.h"
 
 int main() {
-  int socket_fd = socket(AF_INET, SOCK_DGRAM, 0);
+  int socket_fd = socket(AF_INET, SOCK_STREAM, 0);
   if (socket_fd == -1) {
     perror("Error on socket creation: ");
     exit(EXIT_FAILURE);
@@ -25,14 +25,6 @@ int main() {
     perror("Erorr on client send message: ");
     exit(EXIT_FAILURE);
   }
-
-  memset(message, '\0', 256);
-  if (recv(socket_fd, message, 256, 0) == -1) {
-    perror("Error on client recv message: ");
-    exit(EXIT_FAILURE);
-  }
-
-  printf("Message from server: %s\n", message);
 
   close(socket_fd);
   return EXIT_SUCCESS;
